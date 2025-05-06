@@ -32,13 +32,12 @@ form.addEventListener('submit', async (event) => {
             showWarningToast('No images found for the search query.');
             return;
         }
-        hideLoader();
         createGallery(images);
     } catch (error) {
         showErrorToast('An error occurred while fetching images.');
         console.error('Error fetching images:', error);
     } finally {
-        setBtnLoading(false);
         hideLoader();
+        setBtnLoading(false);
     }
 });
