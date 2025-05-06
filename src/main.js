@@ -9,6 +9,7 @@ import {
 } from './js/render-functions';
 
 const form = document.querySelector('.form');
+let currantPage = 1;
 
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -27,7 +28,7 @@ form.addEventListener('submit', async (event) => {
     clearGallery();
     showLoader();
     try {
-        const images = await getImagesByQuery(searchQuery);
+        const images = await getImagesByQuery(searchQuery, currantPage);
         if (!images.length) {
             showWarningToast('No images found for the search query.');
             return;
