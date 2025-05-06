@@ -10,6 +10,7 @@ import {
 
 const form = document.querySelector('.form');
 let currantPage = 1;
+let hits = 0;
 
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -29,11 +30,11 @@ form.addEventListener('submit', async (event) => {
     showLoader();
     try {
         const images = await getImagesByQuery(searchQuery, currantPage);
-        if (!images.length) {
+        if (!images.hits.length) {
             showWarningToast('No images found for the search query.');
             return;
         }
-        createGallery(images);
+        createGallery(images.hits);
     } catch (error) {
         showErrorToast('An error occurred while fetching images.');
         console.error('Error fetching images:', error);
