@@ -1,0 +1,51 @@
+import { showErrorToast, showWarningToast } from './js/utilitis/toasts';
+import getImagesByQuery from './js/pixbay-api';
+import {
+    createGallery,
+    clearGallery,
+    showLoader,
+    hideLoader,
+    setBtnLoading,
+} from './js/render-functions';
+
+const form = document.querySelector('.form');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const searchQuery = formData.get('search-text').trim();
+
+    if (!searchQuery) {
+        showWarningToast('Please enter a search query.');
+        return;
+    }
+
+    event.target.reset();
+
+    setBtnLoading(true);
+    clearGallery();
+    showLoader();
+
+    getImagesByQuery(searchQuery)
+        .then((images) => {
+            if (!images.length) {
+                showWarningToast('No images found for the search query.');
+                return;
+            }
+            hideLoader();
+            createGallery(images);
+        })
+        .catch((error) => {
+            showErrorToast('An error occurred while fetching images.');
+            console.error('Error fetching images:', error);
+        })
+        .finally(() => {
+            setBtnLoading(false);
+            hideLoader();
+        });
+});
+
+// getImagesByQuery('Dog').then((images) => {
+//     createGallery(images);
+// });

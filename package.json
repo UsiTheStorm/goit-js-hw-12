@@ -1,0 +1,32 @@
+{
+  "name": "vanilla-app-template",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=/goit-js-hw-12/",
+    "preview": "vite preview --base=/goit-js-hw-12/"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.6",
+    "glob": "^11.0.0",
+    "postcss": "^8.4.41",
+    "postcss-sort-media-queries": "^5.2.0",
+    "prettier": "^3.5.3",
+    "vite": "^6.3.2"
+  },
+  "author": "UsiTheStorm",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "glightbox": "^3.3.1",
+    "izitoast": "^1.4.0",
+    "vite-plugin-full-reload": "^1.2.0",
+    "vite-plugin-html-inject": "^1.1.2"
+  }
+}
