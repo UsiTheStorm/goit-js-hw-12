@@ -9,9 +9,26 @@ import {
 } from './js/render-functions';
 
 const form = document.querySelector('.form');
+
+const observerTarget = document.querySelector('.js-guard');
+
 let currantPage = 1;
 let hits = 0;
+let isLoading = false;
+let hasMore = true;
+let options = {
+    rootMargin: '350px',
+};
 
+const observer = new IntersectionObserver(onScroll, options);
+async function onScroll(entries, observer) {
+    console.log(entries);
+    const entry = entries[0];
+    if (entry.isIntersecting) {
+        console.log('Вжух Вантаж');
+    }
+    // observer.unobserve(observerTarget);
+}
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -30,11 +47,13 @@ form.addEventListener('submit', async (event) => {
     showLoader();
     try {
         const images = await getImagesByQuery(searchQuery, currantPage);
+
         if (!images.hits.length) {
             showWarningToast('No images found for the search query.');
             return;
         }
         createGallery(images.hits);
+        observer.observe(observerTarget);
     } catch (error) {
         showErrorToast('An error occurred while fetching images.');
         console.error('Error fetching images:', error);
