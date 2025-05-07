@@ -9,56 +9,45 @@ import {
 } from './js/render-functions';
 
 const form = document.querySelector('.form');
-// const formData = new FormData(form);
-// const searchQuery = formData.get('search-text').trim();
+
 let searchQuery;
 const observerTarget = document.querySelector('.js-guard');
 
-let currantPage = 1;
+let currentPage = 1;
 const perPage = 15;
 let hits = 0;
-// let isLoading = false;
-// let hasMore = true;
-const options = {
-    rootMargin: '350px',
-};
 
-const observer = new IntersectionObserver(onScroll, options);
+// Infinity scroll
 async function onScroll(entries, observer) {
-    console.log(entries);
     const entry = entries[0];
     if (entry.isIntersecting) {
         console.log('Вжух Вантаж');
         observer.unobserve(observerTarget);
 
-        currantPage += 1;
+        currentPage += 1;
 
-        // console.log(currantPage);
         try {
-            console.log(searchQuery);
-            const images = await getImagesByQuery(searchQuery, currantPage, perPage);
+            const images = await getImagesByQuery(searchQuery, currentPage, perPage);
 
             if (!images.hits.length) {
-                showWarningToast('Thats all');
+                showWarningToast('Thats all fellow kids');
                 return;
             }
             createGallery(images.hits);
-
             hits += images.hits.length;
+
             if (hits < images.totalHits) {
                 observer.observe(observerTarget);
             }
-            // observer.observe(observerTarget);
         } catch (error) {
             showErrorToast('An error occurred while fetching images.');
             console.error('Error fetching images:', error);
         }
-        // finally {
-        //     hideLoader();
-        //     setBtnLoading(false);
-        // }
     }
 }
+const observer = new IntersectionObserver(onScroll, { rootMargin: '350px' });
+
+// Form submit
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -70,20 +59,27 @@ form.addEventListener('submit', async (event) => {
         return;
     }
 
-    event.target.reset();
+    hits = 0;
+    currentPage = 1;
+
+    observer.unobserve(observerTarget);
 
     setBtnLoading(true);
     clearGallery();
     showLoader();
     try {
-        const images = await getImagesByQuery(searchQuery, currantPage);
+        const images = await getImagesByQuery(searchQuery, currentPage, perPage);
 
         if (!images.hits.length) {
-            showWarningToast('No images found for the search query.');
+            showWarningToast('No images found');
             return;
         }
         createGallery(images.hits);
-        observer.observe(observerTarget);
+        hits += images.hits.length;
+
+        if (images.hits.length < images.totalHits) {
+            observer.observe(observerTarget);
+        }
     } catch (error) {
         showErrorToast('An error occurred while fetching images.');
         console.error('Error fetching images:', error);
@@ -91,4 +87,5 @@ form.addEventListener('submit', async (event) => {
         hideLoader();
         setBtnLoading(false);
     }
+    event.target.reset();
 });
