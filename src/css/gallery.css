@@ -86,3 +86,21 @@
     padding: 0 10px;
   }
 }
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: rgba(18, 157, 175, 0.879);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+}
+
+.scroll-to-top:hover {
+  background-color: #0d5670;
+  transition: background-color var(--animation-duration) var(--timing-function);
+}

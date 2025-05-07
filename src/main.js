@@ -8,6 +8,8 @@ import {
     setBtnLoading,
 } from './js/render-functions';
 
+const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
 const form = document.querySelector('.form');
 
 let searchQuery;
@@ -90,4 +92,21 @@ form.addEventListener('submit', async (event) => {
         setBtnLoading(false);
     }
     event.target.reset();
+});
+
+// Scroll to top
+scrollToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
+});
+
+// Show/hide scroll to top button
+window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 1.5) {
+        scrollToTopBtn.classList.remove('is-hidden');
+    } else {
+        scrollToTopBtn.classList.add('is-hidden');
+    }
 });
