@@ -4,6 +4,7 @@ import 'glightbox/dist/css/glightbox.css';
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const submitBtn = document.querySelector('button[type="submit"]');
+const scrollToTopBtn = document.querySelector('.scroll-to-top');
 
 let myGLightbox = null;
 
@@ -134,4 +135,23 @@ export function showLoader() {
 export function hideLoader() {
     if (!validateElement(loader, 'Loader')) return;
     loader.classList.add('is-hidden');
+}
+
+// Scroll to top
+export function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
+}
+
+// Check scroll position
+export function checkScrollPosition() {
+    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    const threshold = window.innerHeight * 1.5;
+    if (scrollPosition >= threshold) {
+        scrollToTopBtn.classList.remove('is-hidden');
+    } else {
+        scrollToTopBtn.classList.add('is-hidden');
+    }
 }

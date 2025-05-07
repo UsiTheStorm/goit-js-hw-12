@@ -1,3 +1,4 @@
+import debounce from 'lodash.debounce';
 import { showErrorToast, showWarningToast } from './js/utilitis/toasts';
 import getImagesByQuery from './js/pixbay-api';
 import {
@@ -6,6 +7,8 @@ import {
     showLoader,
     hideLoader,
     setBtnLoading,
+    scrollToTop,
+    checkScrollPosition,
 } from './js/render-functions';
 
 const scrollToTopBtn = document.querySelector('.scroll-to-top');
@@ -96,17 +99,9 @@ form.addEventListener('submit', async (event) => {
 
 // Scroll to top
 scrollToTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-    });
+    scrollToTop();
 });
 
 // Show/hide scroll to top button
-window.addEventListener('scroll', () => {
-    if (window.scrollY > window.innerHeight * 1.5) {
-        scrollToTopBtn.classList.remove('is-hidden');
-    } else {
-        scrollToTopBtn.classList.add('is-hidden');
-    }
-});
+const debouncedCheckScroll = debounce(checkScrollPosition, 50);
+window.addEventListener('scroll', debouncedCheckScroll);
