@@ -5,6 +5,8 @@ const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
 const submitBtn = document.querySelector('button[type="submit"]');
 
+let myGLightbox = null;
+
 const glightboxOptions = {
     selector: '.glightbox', // CSS selector for the gallery links
     loop: true, // Enable looping through the gallery items
@@ -104,11 +106,22 @@ export function createGallery(imagesArray) {
     if (!validateElement(gallery, 'Gallery')) return;
     const markup = imagesArray.map(createGalleryItem).join('');
     gallery.insertAdjacentHTML('beforeend', markup);
-    GLightbox(glightboxOptions);
+
+    // Initialize GLightbox with configuration options
+    if (myGLightbox) {
+        myGLightbox.destroy();
+    }
+    myGLightbox = GLightbox(glightboxOptions);
 }
 
 // Clear gallery
 export function clearGallery() {
+    // Destroy GLightbox
+    if (myGLightbox) {
+        myGLightbox.destroy();
+        myGLightbox = null;
+    }
+
     gallery.innerHTML = '';
 }
 
