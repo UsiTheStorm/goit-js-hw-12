@@ -29,7 +29,7 @@ async function onScroll(entries, observer) {
         try {
             const images = await getImagesByQuery(searchQuery, currentPage, perPage);
 
-            if (!images.hits.length) {
+            if (!images || !images.hits || images.hits.length === 0) {
                 showWarningToast('Thats all fellow kids');
                 return;
             }
@@ -38,6 +38,8 @@ async function onScroll(entries, observer) {
 
             if (hits < images.totalHits) {
                 observer.observe(observerTarget);
+            } else {
+                showWarningToast('Thats all fellow kids');
             }
         } catch (error) {
             showErrorToast('An error occurred while fetching images.');
@@ -70,7 +72,7 @@ form.addEventListener('submit', async (event) => {
     try {
         const images = await getImagesByQuery(searchQuery, currentPage, perPage);
 
-        if (!images.hits.length) {
+        if (!images || !images.hits || images.hits.length === 0) {
             showWarningToast('No images found');
             return;
         }
