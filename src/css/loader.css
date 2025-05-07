@@ -50,7 +50,3 @@
     transform: scale(1) translate(-50%, -50%);
   }
 }
-
-.is-hidden {
-  display: none;
-}
