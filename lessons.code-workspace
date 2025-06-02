@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "it",
+      "path": "../..",
+    },
+    {
+      "name": "udemy",
+      "path": "../../udemy",
+    },
+    {
+      "name": "goithw",
+      "path": "..",
+    },
+  ],
+  "settings": {},
+}
